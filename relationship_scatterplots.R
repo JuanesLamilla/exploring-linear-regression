@@ -20,3 +20,9 @@ Teams %>% filter(yearID %in% 1961:2001) %>%
   mutate(BB_per_game = BB / G, R_per_game = R / G) %>%
   ggplot(aes(BB_per_game, R_per_game)) + 
   geom_point(alpha = 0.5)
+
+# Scatterplot of the relationship between at bats and runs
+Teams %>% filter(yearID %in% 1961:2001) %>%
+  mutate(AB_per_game = AB / G, R_per_game = R / G) %>%
+  ggplot(aes(AB_per_game, R_per_game)) + 
+  geom_point(alpha = 0.5)
