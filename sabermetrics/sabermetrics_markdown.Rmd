@@ -2,16 +2,24 @@
 title: "Study on Sabermetrics and Linear Regression"
 author: "Juan Lamilla"
 date: "09/04/2021"
-output: github_document
+output:
+  prettydoc::html_pretty:
+    theme: cayman
+    highlight: github
 ---
 
 ## Setup
 
 ```{r setup}
 knitr::opts_chunk$set(echo = TRUE)
+
+# Required Libraries
+library(dslabs)
 library(Lahman)
 library(tidyverse)
-library(dslabs)
+
+
+# Setup variables
 team_stats <- Teams %>% filter(yearID %in% 1961:2001)
 ```
 
