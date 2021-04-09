@@ -72,14 +72,14 @@ With this we may now determine how variables baseball variables move together.
 
 ```r
 team_stats %>%
-  mutate(BB_per_game = BB / G, R_per_game = R / G) %>%
-  ggplot(aes(BB_per_game, R_per_game)) + 
+  mutate(AB_per_game = AB / G, R_per_game = R / G) %>%
+  ggplot(aes(AB_per_game, R_per_game)) + 
   geom_point(alpha = 0.5) + 
-  ggtitle("Scatterplot of the Relationship between Bases on Balls and Runs") +
-  xlab("Bases on Balls Per Game") + ylab("Runs Per Game")
+  ggtitle("Scatterplot of the Relationship between At Bats and Runs") +
+  xlab("At Bats Per Game") + ylab("Runs Per Game")
 ```
 
-![](sabermetrics_markdown_files/figure-html/BB/R-1.png)<!-- -->
+![](sabermetrics_markdown_files/figure-html/AB/R-1.png)<!-- -->
 
 ```r
 # Calculate correlation coefficient between runs per game and at bats per game
