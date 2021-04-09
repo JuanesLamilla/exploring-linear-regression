@@ -4,4 +4,6 @@
 
 <p> As there are a lot of independant files, here are some notable places you may want to look to get you started: </p>
 
-- [A Study on Sabermetrics and Linear Regression (R Markdown)](sabermetrics/sabermetrics_markdown.md)
+- A Study on Sabermetrics and Linear Regression (R Markdown)
+    - [HTML Preview](https://htmlpreview.github.io/?https://github.com/JuanesLamilla/exploring-linear-regression/blob/main/sabermetrics/sabermetrics_markdown.html)
+    - [RMD File](sabermetrics/sabermetrics_markdown.Rmd)
