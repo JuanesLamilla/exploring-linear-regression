@@ -29,8 +29,14 @@ team_stats %>%
   ggplot(aes(AB_per_game, R_per_game)) + 
   geom_point(alpha = 0.5)
 
-# Scatterplot of the relationship between at win rate and number of fielding errors
+# Scatterplot of the relationship between win rate and number of fielding errors
 team_stats %>%
   mutate(win_rate = W / G, E_per_game = E / G) %>%
   ggplot(aes(win_rate, E_per_game)) + 
+  geom_point(alpha = 0.5)
+
+# Scatterplot of the relationship between triples and doubles
+team_stats %>%
+  mutate(X3B_per_game = X3B / G, X2B_per_game = X2B / G) %>%
+  ggplot(aes(X3B_per_game, X2B_per_game)) + 
   geom_point(alpha = 0.5)
