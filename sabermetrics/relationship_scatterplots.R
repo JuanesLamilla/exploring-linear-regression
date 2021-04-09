@@ -5,7 +5,7 @@ ds_theme_set()
 
 team_stats <- Teams %>% filter(yearID %in% 1961:2001)
 
-# Scatterplot of the relationship between HRs and wins
+# Scatterplot of the relationship between HRs and runs
 team_stats %>%
   mutate(HR_per_game = HR / G, R_per_game = R / G) %>%
   ggplot(aes(HR_per_game, R_per_game)) + 

@@ -5,24 +5,34 @@ date: "09/04/2021"
 output: github_document
 ---
 
-```{r setup, include=FALSE}
+## Setup
+
+```{r setup}
 knitr::opts_chunk$set(echo = TRUE)
+library(Lahman)
+library(tidyverse)
+library(dslabs)
+team_stats <- Teams %>% filter(yearID %in% 1961:2001)
 ```
 
 ## Introduction
 
 This is an R Markdown document used to organize and display the code I have written for my case study in sabermetrics in my class for linear regression. More specifically, this document highlights relations between baseball players and their contributions to the team, and how we can use linear regression to calculate their effectiveness.
 
-```{r cars}
-summary(cars)
+```{r HR/R}
+team_stats %>%
+  mutate(HR_per_game = HR / G, R_per_game = R / G) %>%
+  ggplot(aes(HR_per_game, R_per_game)) + 
+  geom_point(alpha = 0.5) + 
+  ggtitle("Scatterplot of the relationship between HRs and Runs") +
+  xlab("Home Runs Per Game") + ylab("Runs Per Game")
 ```
 
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r BB/R}
+team_stats %>%
+  mutate(BB_per_game = BB / G, R_per_game = R / G) %>%
+  ggplot(aes(BB_per_game, R_per_game)) + 
+  geom_point(alpha = 0.5) + 
+  ggtitle("Scatterplot of the relationship between Bases on Balls and Runs") +
+  xlab("Bases on Balls Per Game") + ylab("Runs Per Game")
 ```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
