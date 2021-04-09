@@ -1,1 +1,1 @@
-# exploring-sabermetrics
+# Exploring Concepts of Linear Regression
