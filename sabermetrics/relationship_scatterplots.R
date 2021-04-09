@@ -40,3 +40,10 @@ team_stats %>%
   mutate(X3B_per_game = X3B / G, X2B_per_game = X2B / G) %>%
   ggplot(aes(X3B_per_game, X2B_per_game)) + 
   geom_point(alpha = 0.5)
+
+
+# Calculate correlation coefficient between runs per game and at bats per game
+team_stats %>% 
+  mutate(AB_per_game = AB / G, R_per_game = R / G) %>% 
+  summarize(r = cor(AB_per_game, R_per_game)) %>% pull(r)
+
