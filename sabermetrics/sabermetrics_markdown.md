@@ -59,6 +59,16 @@ team_stats %>%
 
 ![](sabermetrics_markdown_files/figure-html/HR/R-1.png)<!-- -->
 
+### Calculating Correlation Coefficient
+
+Using the following examples, we may calculate the correlation coefficient to determine how related two variables are, conveying how they move together. The correlation coefficient is defined for a list of pairs $(x_1, y_1), \dots, (x_n,y_n)$ as the product of the standardized values, so the formula is as follows:
+
+$$
+\rho = \frac{1}{n} \sum_{i=1}^n \left( \frac{x_i-\mu_x}{\sigma_x} \right)\left( \frac{y_i-\mu_y}{\sigma_y} \right)
+$$
+
+With this we may now determine how variables baseball variables move together.
+
 
 ```r
 team_stats %>%
