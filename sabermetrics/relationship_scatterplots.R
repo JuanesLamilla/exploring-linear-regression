@@ -47,3 +47,13 @@ team_stats %>%
   mutate(AB_per_game = AB / G, R_per_game = R / G) %>% 
   summarize(r = cor(AB_per_game, R_per_game)) %>% pull(r)
 
+# Calculate correlation coefficient between win rate and errors per game
+team_stats %>% 
+  mutate(win_rate = W / G, E_per_game = E / G) %>% 
+  summarize(r = cor(win_rate, E_per_game)) %>% pull(r)
+
+# Calculate correlation coefficient between triples and doubles
+team_stats %>% 
+  mutate(X3B_per_game = X3B / G, X2B_per_game = X2B / G) %>% 
+  summarize(r = cor(X3B_per_game, X2B_per_game)) %>% pull(r)
+
