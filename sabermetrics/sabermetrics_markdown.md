@@ -40,7 +40,7 @@ team_stats %>%
   mutate(HR_per_game = HR / G, R_per_game = R / G) %>%
   ggplot(aes(HR_per_game, R_per_game)) + 
   geom_point(alpha = 0.5) + 
-  ggtitle("Scatterplot of the relationship between HRs and Runs") +
+  ggtitle("Scatterplot of the Relationship between HRs and Runs") +
   xlab("Home Runs Per Game") + ylab("Runs Per Game")
 ```
 
@@ -51,8 +51,71 @@ team_stats %>%
   mutate(BB_per_game = BB / G, R_per_game = R / G) %>%
   ggplot(aes(BB_per_game, R_per_game)) + 
   geom_point(alpha = 0.5) + 
-  ggtitle("Scatterplot of the relationship between Bases on Balls and Runs") +
+  ggtitle("Scatterplot of the Relationship between Bases on Balls and Runs") +
   xlab("Bases on Balls Per Game") + ylab("Runs Per Game")
 ```
 
 ![](sabermetrics_markdown_files/figure-gfm/BB/R-1.png)<!-- -->
+
+``` r
+# Calculate correlation coefficient between runs per game and at bats per game
+team_stats %>% 
+  mutate(AB_per_game = AB / G, R_per_game = R / G) %>% 
+  summarize(r = cor(AB_per_game, R_per_game)) %>% pull(r)
+```
+
+    ## [1] 0.6580976
+
+We can see a relatively strong direct correlation between the number of
+runs and the number of at bats per game. This is also evident by the
+linearity of the graph. This makes perfect sense, as a team would
+obviously get more runs the more changes (at bats) they receive.
+
+``` r
+team_stats %>%
+  mutate(win_rate = W / G, E_per_game = E / G) %>%
+  ggplot(aes(win_rate, E_per_game)) + 
+  geom_point(alpha = 0.5) + 
+  ggtitle("Scatterplot of the relationship between Win Rate and Number of Fielding Errors") +
+  xlab("Wins Per Game") + ylab("Fielding Errors Per Game")
+```
+
+![](sabermetrics_markdown_files/figure-gfm/WR/FE-1.png)<!-- -->
+
+``` r
+# Calculate correlation coefficient between win rate and errors per game
+team_stats %>% 
+  mutate(win_rate = W / G, E_per_game = E / G) %>% 
+  summarize(r = cor(win_rate, E_per_game)) %>% pull(r)
+```
+
+    ## [1] -0.3396947
+
+We can see a weaker inverse correlation between the win rate and the
+number of fielding errors per game.
+
+``` r
+team_stats %>%
+  mutate(X3B_per_game = X3B / G, X2B_per_game = X2B / G) %>%
+  ggplot(aes(X3B_per_game, X2B_per_game)) + 
+  geom_point(alpha = 0.5) + 
+  ggtitle("Scatterplot of the relationship between Triples and Doubles") +
+  xlab("Wins Per Game") + ylab("Fielding Errors Per Game")
+```
+
+![](sabermetrics_markdown_files/figure-gfm/X3B/X2B-1.png)<!-- -->
+
+``` r
+# Calculate correlation coefficient between triples and doubles
+team_stats %>% 
+  mutate(X3B_per_game = X3B / G, X2B_per_game = X2B / G) %>% 
+  summarize(r = cor(X3B_per_game, X2B_per_game)) %>% pull(r)
+```
+
+    ## [1] -0.01157404
+
+We can see a very very weak inverse correlation between the number of
+triples and the number of doubles per game. Since this correlation
+coefficient is so close to 0, we may as well say there is no correlation
+in this relationship. This is also evident by the amount of scatter in
+the plot.
