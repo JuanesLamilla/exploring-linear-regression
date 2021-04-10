@@ -1,5 +1,5 @@
 ---
-title: "Study on Sabermetrics and Linear Regression"
+title: "Study on Linear Regression in Galton Heights Data"
 author: "Juan Lamilla"
 date: "09/04/2021"
 output:
