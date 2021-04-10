@@ -4,7 +4,7 @@ author: "Juan Lamilla"
 date: "09/04/2021"
 output:
   prettydoc::html_pretty:
-    theme: cayman
+    theme: architect
     highlight: github
     keep_md: true
 ---

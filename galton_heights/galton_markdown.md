@@ -4,7 +4,7 @@ author: "Juan Lamilla"
 date: "09/04/2021"
 output:
   prettydoc::html_pretty:
-    theme: cayman
+    theme: architect
     highlight: github
     keep_md: true
 ---
@@ -67,7 +67,7 @@ galton_heights %>%
 ## # A tibble: 1 x 4
 ##   `mean(father)` `sd(father)` `mean(son)` `sd(son)`
 ##            <dbl>        <dbl>       <dbl>     <dbl>
-## 1           69.1         2.55        69.3      2.72
+## 1           69.1         2.55        69.2      2.65
 ```
 
 
@@ -96,7 +96,7 @@ galton_heights %>% summarize(r = cor(father, son)) %>% pull(r)
 ```
 
 ```
-## [1] 0.3732573
+## [1] 0.5022861
 ```
 
 Since correlation is calculated based on a sample of data, we may further limit the sample size to see how the correlation may be warped.
@@ -113,7 +113,7 @@ R
 ## # A tibble: 1 x 1
 ##       r
 ##   <dbl>
-## 1 0.248
+## 1 0.182
 ```
 
 And run a monte-carlo simulation of the sample correlation:
@@ -140,7 +140,7 @@ mean(R)
 ```
 
 ```
-## [1] 0.370806
+## [1] 0.5018423
 ```
 
 ```r
@@ -148,7 +148,7 @@ sd(R)
 ```
 
 ```
-## [1] 0.1824997
+## [1] 0.1422358
 ```
 
 Finally we can calculate if a sample size (N) is large enough by creating a QQ-plot
