@@ -50,6 +50,9 @@ galton_heights <- GaltonFamilies %>%
   ungroup() %>%
   select(father, childHeight) %>%
   rename(son = childHeight)
+
+# As this study deals with random variables, a seed will be set. Feel free to run this without a seed to find the variance in results.
+set.seed(2021)
 ```
 
 ## Introduction
@@ -67,7 +70,7 @@ galton_heights %>%
 ## # A tibble: 1 x 4
 ##   `mean(father)` `sd(father)` `mean(son)` `sd(son)`
 ##            <dbl>        <dbl>       <dbl>     <dbl>
-## 1           69.1         2.55        69.2      2.59
+## 1           69.1         2.55        69.1      2.65
 ```
 
 
@@ -96,7 +99,7 @@ galton_heights %>% summarize(r = cor(father, son)) %>% pull(r)
 ```
 
 ```
-## [1] 0.3885727
+## [1] 0.3544605
 ```
 
 Since correlation is calculated based on a sample of data, we may further limit the sample size to see how the correlation may be warped.
@@ -113,7 +116,7 @@ R
 ## # A tibble: 1 x 1
 ##       r
 ##   <dbl>
-## 1 0.196
+## 1 0.383
 ```
 
 And run a monte-carlo simulation of the sample correlation:
@@ -140,7 +143,7 @@ mean(R)
 ```
 
 ```
-## [1] 0.3801609
+## [1] 0.3504122
 ```
 
 ```r
@@ -148,7 +151,7 @@ sd(R)
 ```
 
 ```
-## [1] 0.1935046
+## [1] 0.1873031
 ```
 
 Finally we can calculate if a sample size (N) is large enough by creating a QQ-plot
@@ -181,7 +184,7 @@ conditional_avg
 ```
 
 ```
-## [1] 70.40714
+## [1] 70.46429
 ```
 
 Stratification allows us to use boxplots to find the distribution of each group (between fathers/sons)
@@ -228,6 +231,7 @@ or rewritten like:
 $$ 
 Y = \mu_Y + \rho \left( \frac{x-\mu_X}{\sigma_X} \right) \sigma_Y
 $$
+This may be more clearly understood in the common slope formula of $y = mx + b$ where the slope is $m = \rho \frac{\sigma_y}{\sigma_x}$ with an intercept of $b = \mu_y - m \mu_x$.
 
 
 ```r
@@ -250,7 +254,58 @@ galton_heights %>%
 ![](galton_markdown_files/figure-html/72regressionline-1.png)<!-- -->
 
 
+### Bivariate Normal Distribution
+
+Although we have the regression line, we must also determine if the two variables can be approximated by the bivariate normal distribution. This is because when two variables follow a bivariate normal distribution, computing the regression line is equivalent to computing conditional expectations.
+
+If the height data is well-approximated for the bivariate normal distribution then we should see the normal approximation hold for each grouping. We can determine this by using the following plot, which stratifies the son heights by the standardized father heights.
 
 
+```r
+galton_heights %>%
+  mutate(z_father = round((father - mean(father)) / sd(father))) %>%
+  filter(z_father %in% -2:2) %>%
+  ggplot() +  
+  stat_qq(aes(sample = son)) +
+  facet_wrap( ~ z_father)
+```
+
+![](galton_markdown_files/figure-html/72BND-1.png)<!-- -->
+
+Note, the expected value of x given y is *not* the inverse of y given x. If we wanted the to compute predict the father's height from the son's, we would need to compute the regression line again.
 
 
+```r
+# Regression line of fathers heights based on the sons heights.
+slope <-  r * s_x / s_y
+intercept <- mu_x - slope*mu_y
+
+slope
+```
+
+```
+## [1] 0.3404051
+```
+
+```r
+intercept
+```
+
+```
+## [1] 45.58526
+```
+
+Adding this linear regression line to the plot we get the following:
+(with the regression line of fathers heights based on sons heights in blue, and the regression line of sons heights based on fathers heights in red.)
+
+
+```r
+galton_heights %>%
+    ggplot(aes(father, son)) +
+    geom_point(alpha = 0.5) +
+    geom_abline(aes(slope = m, intercept = b, colour = "red")) +
+    geom_abline(aes(slope = slope, intercept = intercept, colour = "blue")) +
+    theme(legend.position = "none")
+```
+
+![](galton_markdown_files/figure-html/72secondline-1.png)<!-- -->
