@@ -67,7 +67,7 @@ galton_heights %>%
 ## # A tibble: 1 x 4
 ##   `mean(father)` `sd(father)` `mean(son)` `sd(son)`
 ##            <dbl>        <dbl>       <dbl>     <dbl>
-## 1           69.1         2.55        69.2      2.65
+## 1           69.1         2.55        69.2      2.59
 ```
 
 
@@ -96,7 +96,7 @@ galton_heights %>% summarize(r = cor(father, son)) %>% pull(r)
 ```
 
 ```
-## [1] 0.5022861
+## [1] 0.3885727
 ```
 
 Since correlation is calculated based on a sample of data, we may further limit the sample size to see how the correlation may be warped.
@@ -113,7 +113,7 @@ R
 ## # A tibble: 1 x 1
 ##       r
 ##   <dbl>
-## 1 0.182
+## 1 0.196
 ```
 
 And run a monte-carlo simulation of the sample correlation:
@@ -140,7 +140,7 @@ mean(R)
 ```
 
 ```
-## [1] 0.5018423
+## [1] 0.3801609
 ```
 
 ```r
@@ -148,7 +148,7 @@ sd(R)
 ```
 
 ```
-## [1] 0.1422358
+## [1] 0.1935046
 ```
 
 Finally we can calculate if a sample size (N) is large enough by creating a QQ-plot
@@ -163,4 +163,94 @@ data.frame(R) %>%
 ```
 
 ![](galton_markdown_files/figure-html/QQ-Plot-1.png)<!-- -->
+
+## Stratification
+
+To improve the estimates of the conditional expectations we can define strata with similar heights.
+
+For example, we may want to calculate the predicted height of a son with a specific height of the fathers, like so:
+
+
+```r
+# predicted height of a son with a 72 inch tall father
+conditional_avg <- galton_heights %>%
+    filter(round(father) == 72) %>%
+    summarize(avg = mean(son)) %>%
+    pull(avg)
+conditional_avg
+```
+
+```
+## [1] 70.40714
+```
+
+Stratification allows us to use boxplots to find the distribution of each group (between fathers/sons)
+
+
+```r
+# stratify fathers' heights to make a boxplot of son heights
+galton_heights %>% mutate(father_strata = factor(round(father))) %>%
+    ggplot(aes(father_strata, son)) +
+    geom_boxplot() +
+    geom_point()
+```
+
+![](galton_markdown_files/figure-html/72boxplot-1.png)<!-- -->
+
+The center of each group rises with height, and the means of each group follow a linear relationship (which we can show with the follow plot).
+
+
+```r
+# center of each boxplot
+galton_heights %>%
+    mutate(father = round(father)) %>%
+    group_by(father) %>%
+    summarize(son_conditional_avg = mean(son)) %>%
+    ggplot(aes(father, son_conditional_avg)) +
+    geom_point()
+```
+
+![](galton_markdown_files/figure-html/72center-1.png)<!-- -->
+
+#### Regression
+
+Finally we may calculate the regression line to get a more clear understanding of the two variables.
+
+If there is perfect correlation, the regression line predicts an increase that is the same number of SDs for both variables. If there is 0 correlation, then we don’t use x at all for the prediction and simply predict the average $μ_y$. For values between 0 and 1, the prediction is somewhere in between. If the correlation is negative, we predict a reduction instead of an increase.
+
+The formula for the regression is as follows:
+
+$$ 
+\left( \frac{Y-\mu_Y}{\sigma_Y} \right) = \rho \left( \frac{x-\mu_X}{\sigma_X} \right)
+$$
+or rewritten like:
+
+$$ 
+Y = \mu_Y + \rho \left( \frac{x-\mu_X}{\sigma_X} \right) \sigma_Y
+$$
+
+
+```r
+# calculate values to plot regression line on original data
+mu_x <- mean(galton_heights$father)
+mu_y <- mean(galton_heights$son)
+s_x <- sd(galton_heights$father)
+s_y <- sd(galton_heights$son)
+r <- cor(galton_heights$father, galton_heights$son)
+m <- r * s_y/s_x
+b <- mu_y - m*mu_x
+
+# add regression line to plot
+galton_heights %>%
+    ggplot(aes(father, son)) +
+    geom_point(alpha = 0.5) +
+    geom_abline(intercept = b, slope = m)
+```
+
+![](galton_markdown_files/figure-html/72regressionline-1.png)<!-- -->
+
+
+
+
+
 
