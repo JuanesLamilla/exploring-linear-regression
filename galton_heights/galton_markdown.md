@@ -1,5 +1,5 @@
 ---
-title: "Study on Sabermetrics and Linear Regression"
+title: "Study on Linear Regression in Galton Heights Data"
 author: "Juan Lamilla"
 date: "09/04/2021"
 output:
@@ -67,7 +67,7 @@ galton_heights %>%
 ## # A tibble: 1 x 4
 ##   `mean(father)` `sd(father)` `mean(son)` `sd(son)`
 ##            <dbl>        <dbl>       <dbl>     <dbl>
-## 1           69.1         2.55        69.3      2.56
+## 1           69.1         2.55        69.3      2.72
 ```
 
 
@@ -96,7 +96,7 @@ galton_heights %>% summarize(r = cor(father, son)) %>% pull(r)
 ```
 
 ```
-## [1] 0.3927949
+## [1] 0.3732573
 ```
 
 Since correlation is calculated based on a sample of data, we may further limit the sample size to see how the correlation may be warped.
@@ -113,7 +113,7 @@ R
 ## # A tibble: 1 x 1
 ##       r
 ##   <dbl>
-## 1 0.371
+## 1 0.248
 ```
 
 And run a monte-carlo simulation of the sample correlation:
@@ -140,7 +140,7 @@ mean(R)
 ```
 
 ```
-## [1] 0.391278
+## [1] 0.370806
 ```
 
 ```r
@@ -148,7 +148,7 @@ sd(R)
 ```
 
 ```
-## [1] 0.1777948
+## [1] 0.1824997
 ```
 
 Finally we can calculate if a sample size (N) is large enough by creating a QQ-plot
