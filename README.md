@@ -7,3 +7,6 @@
 - A Study on Sabermetrics and Linear Regression (R Markdown)
     - [HTML Preview](https://htmlpreview.github.io/?https://github.com/JuanesLamilla/exploring-linear-regression/blob/main/sabermetrics/sabermetrics_markdown.html)
     - [RMD File](sabermetrics/sabermetrics_markdown.Rmd)
+- A Study on Linear Regression in Galton Heights Data (R Markdown)
+    - [HTML Preview](https://htmlpreview.github.io/?https://github.com/JuanesLamilla/exploring-linear-regression/blob/main/galton_heights/galton_markdown.html)
+    - [RMD File](galton_heights/galton_markdown.Rmd)
