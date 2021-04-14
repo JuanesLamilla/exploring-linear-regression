@@ -214,6 +214,18 @@ a.sourceLine {
 <p>We can see a very very weak inverse correlation between the number of triples and the number of doubles per game. Since this correlation coefficient is so close to 0, we may as well say there is no correlation in this relationship. This is also evident by the amount of scatter in the plot.</p>
 </div>
 </div>
+<div id="confounding" class="section level2">
+<h2>Confounding</h2>
+<p>Using the previous techniques we can determine that the slope of the regression line between Bases on Balls and runs is 0.735. It may appear as though Bases on Balls causes a lot of runs, however, that may not necessarily be the case.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate correlation between HR, BB and singles</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>Teams <span class="sc">%&gt;%</span> </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(yearID <span class="sc">%in%</span> <span class="dv">1961</span><span class="sc">:</span><span class="dv">2001</span> ) <span class="sc">%&gt;%</span> </span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Singles =</span> (H<span class="sc">-</span>HR<span class="sc">-</span>X2B<span class="sc">-</span>X3B)<span class="sc">/</span>G, <span class="at">BB =</span> BB<span class="sc">/</span>G, <span class="at">HR =</span> HR<span class="sc">/</span>G) <span class="sc">%&gt;%</span>  </span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">cor</span>(BB, HR), <span class="fu">cor</span>(Singles, HR), <span class="fu">cor</span>(BB,Singles))</span></code></pre></div>
+<pre><code>##   cor(BB, HR) cor(Singles, HR) cor(BB, Singles)
+## 1   0.4039313       -0.1737435      -0.05603822</code></pre>
+<p>It turns out home run players are given more bases on balls to avoid letting them hit home runs. In this case, we say Bases on Balls are confounded with Home Runs.</p>
+</div>
 </section>
 
 

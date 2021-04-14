@@ -143,3 +143,28 @@ team_stats %>%
 ```
 
 We can see a very very weak inverse correlation between the number of triples and the number of doubles per game. Since this correlation coefficient is so close to 0, we may as well say there is no correlation in this relationship. This is also evident by the amount of scatter in the plot.
+
+## Confounding
+
+Using the previous techniques we can determine that the slope of the regression line between Bases on Balls and runs is 0.735. It may appear as though Bases on Balls causes a lot of runs, however, that may not necessarily be the case. 
+
+
+
+```r
+# calculate correlation between HR, BB and singles
+Teams %>% 
+  filter(yearID %in% 1961:2001 ) %>% 
+  mutate(Singles = (H-HR-X2B-X3B)/G, BB = BB/G, HR = HR/G) %>%  
+  summarize(cor(BB, HR), cor(Singles, HR), cor(BB,Singles))
+```
+
+```
+##   cor(BB, HR) cor(Singles, HR) cor(BB, Singles)
+## 1   0.4039313       -0.1737435      -0.05603822
+```
+
+
+It turns out home run players are given more bases on balls to avoid letting them hit home runs. In this case, we say Bases on Balls are confounded with Home Runs.
+
+
+
