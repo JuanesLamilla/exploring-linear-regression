@@ -11,7 +11,7 @@ output:
 
 ## Setup
 
-```{r setup, warning=FALSE}
+```{r setup, results = FALSE, warning=FALSE, message=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
 # Required Libraries

@@ -18,26 +18,7 @@ knitr::opts_chunk$set(echo = TRUE)
 # Required Libraries
 library(HistData)
 library(tidyverse)
-```
 
-```
-## -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
-```
-
-```
-## v ggplot2 3.3.3     v purrr   0.3.4
-## v tibble  3.0.6     v dplyr   1.0.4
-## v tidyr   1.1.2     v stringr 1.4.0
-## v readr   1.4.0     v forcats 0.5.1
-```
-
-```
-## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
-## x dplyr::filter() masks stats::filter()
-## x dplyr::lag()    masks stats::lag()
-```
-
-```r
 # Data used
 data("GaltonFamilies")
 
@@ -70,7 +51,7 @@ galton_heights %>%
 ## # A tibble: 1 x 4
 ##   `mean(father)` `sd(father)` `mean(son)` `sd(son)`
 ##            <dbl>        <dbl>       <dbl>     <dbl>
-## 1           69.1         2.55        69.1      2.65
+## 1           69.1         2.55        69.3      2.61
 ```
 
 
@@ -99,7 +80,7 @@ galton_heights %>% summarize(r = cor(father, son)) %>% pull(r)
 ```
 
 ```
-## [1] 0.3544605
+## [1] 0.461157
 ```
 
 Since correlation is calculated based on a sample of data, we may further limit the sample size to see how the correlation may be warped.
@@ -116,7 +97,7 @@ R
 ## # A tibble: 1 x 1
 ##       r
 ##   <dbl>
-## 1 0.383
+## 1 0.527
 ```
 
 And run a monte-carlo simulation of the sample correlation:
@@ -143,7 +124,7 @@ mean(R)
 ```
 
 ```
-## [1] 0.3504122
+## [1] 0.4657164
 ```
 
 ```r
@@ -151,7 +132,7 @@ sd(R)
 ```
 
 ```
-## [1] 0.1873031
+## [1] 0.1594211
 ```
 
 Finally we can calculate if a sample size (N) is large enough by creating a QQ-plot
@@ -184,7 +165,7 @@ conditional_avg
 ```
 
 ```
-## [1] 70.46429
+## [1] 71.21429
 ```
 
 Stratification allows us to use boxplots to find the distribution of each group (between fathers/sons)
@@ -284,7 +265,7 @@ slope
 ```
 
 ```
-## [1] 0.3404051
+## [1] 0.4491833
 ```
 
 ```r
@@ -292,7 +273,7 @@ intercept
 ```
 
 ```
-## [1] 45.58526
+## [1] 37.96471
 ```
 
 Adding this linear regression line to the plot we get the following:
